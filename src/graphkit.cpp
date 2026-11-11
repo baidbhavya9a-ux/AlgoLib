@@ -620,6 +620,18 @@ DijkstraResult Graph::dijkstra(int startVertex, int targetVertex) const {
         return result;
     }
 
+    // Check for negative edge weights (Dijkstra requires non-negative weights)
+    for (int i = 0; i < vertexCount; ++i) {
+        EdgeNode* cur = adjList[i];
+        while (cur) {
+            if (cur->weight < 0) {
+                result.summary = "ERROR: Dijkstra's algorithm does not support negative edge weights.";
+                return result;
+            }
+            cur = cur->next;
+        }
+    }
+
     int* dist = new int[vertexCount];
     int* prev = new int[vertexCount];
     bool* visited = new bool[vertexCount];

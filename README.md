@@ -28,7 +28,7 @@ In strict adherence to ADSA pedagogical rules, **none of the core data structure
 
 ## 3. High-Level Features
 
-AlgoLib is partitioned into four major interactive modules:
+AlgoLib is partitioned into four major interactive modules, each featuring a **Synchronized Dual-View (Graphical Visualizer on the Left, Live C++ Implementation Snippet on the Right)**:
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -42,7 +42,15 @@ AlgoLib is partitioned into four major interactive modules:
 |  - BST (Counting) |  - Decompression  |  - Kruskal MST    |  - Table Visualizer   |
 |  - Min Heap       |  - Verification   |  - Graph Canvas   |  - Traceback Engine   |
 +-------------------+-------------------+-------------------+-----------------------+
+|  [Left: Real-time Visual Canvas]     <-->    [Right: Synchronized C++ Code Panel] |
+|  [Bottom: Execution Log / Diagnostic Console / Path Trace / Traceback Analysis]   |
++-----------------------------------------------------------------------------------+
 ```
+
+### Key Interactive Features
+- **Execution-Synchronized C++ Code Panel:** Every successful operation dynamically displays the exact 3–10 lines of underlying C++ implementation responsible for it, with syntax highlighting, line numbers, file source identification, and one-click clipboard copying.
+- **Full Enter-Key Navigation:** Every single-line input field across all 4 modules (value inputs, search inputs, vertex labels, edge weights, file paths, and DP inputs) supports instant Enter-key execution.
+- **Defensive Input Validation:** Duplicate vertex prevention, negative weight detection in Dijkstra, empty label rejection, and bounds-checked data structures ensure error-free operation.
 
 ---
 
@@ -381,3 +389,4 @@ In full accordance with ADSA academic integrity guidelines:
 1. **Zero STL Container Rule:** Containers (`std::vector`, `std::list`, `std::map`, `std::queue`, `std::stack`, `std::set`, `std::priority_queue`, etc.) are **not used** for core data structures or algorithms.
 2. **Explicit Memory Deallocation:** All dynamically allocated memory structures define explicit destructors and clean-up routines to prevent leaks.
 3. **No External Black-Box Algorithms:** Algorithms (`std::sort`, graph solvers, compression libraries) are replaced with bespoke C++ implementations (`customSortEdges`, `DisjointSet`, `DijkstraHeap`, `BitWriter`/`BitReader`).
+

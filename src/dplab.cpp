@@ -377,3 +377,4 @@ void DPLab::freeCoinChangeResult(CoinChangeResult& res) {
 }
 
 } // namespace algolib
+

@@ -11,3 +11,4 @@ AlgoLib provides comprehensive custom non-STL implementations of:
 8. Graph algorithms: BFS, DFS, Dijkstra's Shortest Path, Kruskal's MST
 9. Dynamic Programming: Fibonacci, 0/1 Knapsack, LCS, Coin Change
 Lossless compression reduces storage requirements while guaranteeing 100% data integrity.
+

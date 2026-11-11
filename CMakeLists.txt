@@ -13,6 +13,7 @@ qt_standard_project_setup()
 qt_add_executable(AlgoLibApp
     app/main.cpp
     src/visualizer.cpp
+    src/code_panel.cpp
     src/compressx.cpp
     src/graphkit.cpp
     src/graph_visualizer.cpp

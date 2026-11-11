@@ -35,3 +35,4 @@ public:
 } // namespace algolib
 
 #endif // ALGOLIB_GRAPH_VISUALIZER_HPP
+

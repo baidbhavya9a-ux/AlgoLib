@@ -12,7 +12,7 @@ namespace algolib {
 GraphVisualizer::GraphVisualizer(QWidget* parent)
     : QWidget(parent), graph(nullptr), edgeHighlightColor("#38BDF8")
 {
-    setMinimumSize(480, 320);
+    setMinimumSize(420, 280);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
@@ -73,7 +73,7 @@ QPointF GraphVisualizer::getVertexPosition(int index, int total) const {
 
     qreal centerX = width() / 2.0;
     qreal centerY = height() / 2.0;
-    qreal radius = qMin(centerX, centerY) - 50.0;
+    qreal radius = qMin(centerX, centerY) - 45.0;
     if (radius < 40.0) radius = 40.0;
 
     qreal angle = (2.0 * M_PI * index) / total - (M_PI / 2.0); // Start from top
@@ -91,19 +91,20 @@ void GraphVisualizer::paintEvent(QPaintEvent* event) {
     if (!graph || graph->getVertexCount() == 0) {
         painter.setPen(QColor("#A0A0B5"));
         painter.setFont(QFont("Segoe UI", 11));
-        painter.drawText(rect(), Qt::AlignCenter, "Graph is empty.\nAdd vertices and edges or load a sample graph to visualize.");
+        painter.drawText(rect(), Qt::AlignCenter, "Graph is empty.\nAdd vertices and edges or load a preset to visualize.");
         return;
     }
 
     int n = graph->getVertexCount();
-    const qreal nodeRadius = 22.0;
+    // Dynamically scale node radius based on vertex count
+    const qreal nodeRadius = (n <= 8) ? 22.0 : qMax(14.0, 180.0 / n);
 
     // Collect all edges
     int totalEdges = graph->getTotalEdgeCount();
     GraphEdge* edges = new GraphEdge[totalEdges > 0 ? totalEdges : 1];
     int actualEdges = graph->getAllEdges(edges, totalEdges);
 
-    // 1. Draw regular edges
+    // 1. Draw edges
     for (int i = 0; i < actualEdges; ++i) {
         int u = edges[i].u;
         int v = edges[i].v;
@@ -122,16 +123,52 @@ void GraphVisualizer::paintEvent(QPaintEvent* event) {
         }
 
         if (isHighEdge) {
-            painter.setPen(QPen(edgeHighlightColor, 3));
+            painter.setPen(QPen(edgeHighlightColor, 3.5, Qt::SolidLine, Qt::RoundCap));
         } else {
-            painter.setPen(QPen(QColor("#475569"), 1.5));
+            painter.setPen(QPen(QColor("#475569"), 1.8, Qt::SolidLine, Qt::RoundCap));
+        }
+
+        if (u == v) {
+            // Self-loop: draw loop circle above vertex
+            qreal loopR = nodeRadius * 1.2;
+            QPointF loopCenter(p1.x(), p1.y() - nodeRadius - loopR / 2.0);
+            painter.setBrush(Qt::NoBrush);
+            painter.drawEllipse(loopCenter, loopR, loopR);
+
+            // Weight badge
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(isHighEdge ? QColor("#1E293B") : QColor("#0F172A"));
+            painter.drawRoundedRect(QRectF(loopCenter.x() - 14, loopCenter.y() - loopR - 6, 28, 18), 4, 4);
+
+            painter.setPen(isHighEdge ? edgeHighlightColor : QColor("#94A3B8"));
+            painter.setFont(QFont("Segoe UI", 8, QFont::Bold));
+            painter.drawText(QRectF(loopCenter.x() - 14, loopCenter.y() - loopR - 6, 28, 18), Qt::AlignCenter, QString::number(w));
+            continue;
         }
 
         painter.drawLine(p1, p2);
 
+        // If directed, draw arrowhead at target boundary
+        if (graph->isDirected()) {
+            qreal dx = p2.x() - p1.x();
+            qreal dy = p2.y() - p1.y();
+            qreal len = std::sqrt(dx * dx + dy * dy);
+            if (len > 0.001) {
+                QPointF targetEdge(p2.x() - (dx / len) * nodeRadius, p2.y() - (dy / len) * nodeRadius);
+                qreal arrowSize = 10.0;
+                QPointF arrowP1(targetEdge.x() - (dx / len) * arrowSize + (dy / len) * (arrowSize / 2.0),
+                                targetEdge.y() - (dy / len) * arrowSize - (dx / len) * (arrowSize / 2.0));
+                QPointF arrowP2(targetEdge.x() - (dx / len) * arrowSize - (dy / len) * (arrowSize / 2.0),
+                                targetEdge.y() - (dy / len) * arrowSize + (dx / len) * (arrowSize / 2.0));
+                QPolygonF arrowHead;
+                arrowHead << targetEdge << arrowP1 << arrowP2;
+                painter.setBrush(isHighEdge ? edgeHighlightColor : QColor("#64748B"));
+                painter.drawPolygon(arrowHead);
+            }
+        }
+
         // Draw edge weight badge at midpoint
         QPointF mid = (p1 + p2) / 2.0;
-        // Offset perpendicular slightly so text doesn't overlap line
         qreal dx = p2.x() - p1.x();
         qreal dy = p2.y() - p1.y();
         qreal len = std::sqrt(dx * dx + dy * dy);
@@ -158,7 +195,6 @@ void GraphVisualizer::paintEvent(QPaintEvent* event) {
         QPointF pt = getVertexPosition(i, n);
         bool isHighVertex = highlightedVertices.contains(i);
 
-        // Outer glow/ring if highlighted
         if (isHighVertex) {
             painter.setPen(QPen(edgeHighlightColor, 3));
             painter.setBrush(QColor("#1E3A8A"));
@@ -171,7 +207,8 @@ void GraphVisualizer::paintEvent(QPaintEvent* event) {
 
         // Vertex label
         painter.setPen(isHighVertex ? edgeHighlightColor : Qt::white);
-        painter.setFont(QFont("Segoe UI", 10, QFont::Bold));
+        int fontSize = (n <= 12) ? 10 : 8;
+        painter.setFont(QFont("Segoe UI", fontSize, QFont::Bold));
         painter.drawText(QRectF(pt.x() - nodeRadius, pt.y() - nodeRadius, nodeRadius * 2, nodeRadius * 2),
                          Qt::AlignCenter, QString::fromStdString(graph->getVertexLabel(i)));
     }

@@ -79,3 +79,4 @@ public:
 } // namespace algolib
 
 #endif // ALGOLIB_DPLAB_HPP
+

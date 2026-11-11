@@ -18,3 +18,4 @@
 #include "algolib/dplab.hpp"
 
 #endif // ALGOLIB_HPP
+
