@@ -61,3 +61,39 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
+
+# CMake build directories
+/build/
+/build-release/
+/cmake-build-*/
+
+# Compiled files
+*.exe
+*.dll
+*.o
+*.obj
+*.a
+*.lib
+
+# Generated CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+build.ninja
+.ninja_deps
+.ninja_log
+
+# Temporary diagnostic files
+build_error.txt
+ninja_error.txt
+compiler_test.cpp
+compiler_test.exe
+
+# Distribution output
+/dist/
+
+# IDE temporary files
+.vs/
+
+
