@@ -1,0 +1,13 @@
+The quick brown fox jumps over the lazy dog.
+Data structures and algorithms form the foundation of computer science.
+AlgoLib provides comprehensive custom non-STL implementations of:
+1. Dynamic Array with amortized O(1) growth
+2. Singly Linked List with pointer-based node linking
+3. Stack (Last-In First-Out)
+4. Queue (First-In First-Out)
+5. Binary Search Tree with duplicate frequency counting
+6. Binary Min Heap with sift-up and sift-down operations
+7. Huffman lossless data compression with custom priority queues
+8. Graph algorithms: BFS, DFS, Dijkstra's Shortest Path, Kruskal's MST
+9. Dynamic Programming: Fibonacci, 0/1 Knapsack, LCS, Coin Change
+Lossless compression reduces storage requirements while guaranteeing 100% data integrity.
