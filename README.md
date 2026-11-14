@@ -390,3 +390,92 @@ In full accordance with ADSA academic integrity guidelines:
 2. **Explicit Memory Deallocation:** All dynamically allocated memory structures define explicit destructors and clean-up routines to prevent leaks.
 3. **No External Black-Box Algorithms:** Algorithms (`std::sort`, graph solvers, compression libraries) are replaced with bespoke C++ implementations (`customSortEdges`, `DisjointSet`, `DijkstraHeap`, `BitWriter`/`BitReader`).
 
+## 🚀 How to Download, Build and Run AlgoLib
+
+Follow these steps to run AlgoLib on a Windows computer.
+
+### 1. Download the Project
+
+**Option A: Download ZIP**
+1. Open the [AlgoLib GitHub Repository](https://github.com/baidbhavya9a-ux/AlgoLib).
+2. Click the green **Code** button.
+3. Select **Download ZIP**.
+4. Extract the downloaded ZIP file.
+
+**Option B: Clone using Git**
+
+Open a terminal and run:
+
+```bash
+git clone https://github.com/baidbhavya9a-ux/AlgoLib.git
+```
+
+### 2. Install the Required Software
+
+Make sure the following tools are installed:
+
+- **Visual Studio Code** – Code editor.
+- **Qt 6.12.0 (MinGW 64-bit)** – GUI framework.
+- **MinGW GCC 13.1.0** – C++ compiler.
+- **CMake** – Build configuration tool.
+- **Ninja** – Build tool.
+
+### 3. Open the Project in VS Code
+
+1. Open Visual Studio Code.
+2. Select **File → Open Folder**.
+3. Choose the extracted `AlgoLib` project folder.
+4. Open the integrated terminal using **Terminal → New Terminal**.
+
+### 4. Configure the Qt Environment
+
+In the PowerShell terminal, run:
+
+```powershell
+$env:PATH = "C:\Qt\Tools\mingw1310_64\bin;C:\Qt\Tools\mingw1310_64\x86_64-w64-mingw32\bin;C:\Qt\6.12.0\mingw_64\bin;C:\Qt\Tools\Ninja;$env:PATH"
+```
+
+**Note:** This command assumes Qt and MinGW are installed in the paths shown above. If they are installed elsewhere, update the paths accordingly.
+
+### 5. Configure and Build the Project
+
+Run these commands from the project root directory:
+
+```powershell
+cmake -S . -B build -G Ninja
+cmake --build build
+```
+
+Wait for the build to complete successfully.
+
+### 6. Launch AlgoLib
+
+Run:
+
+```powershell
+.\build\AlgoLibApp.exe
+```
+
+The AlgoLib desktop application should now launch.
+
+### 7. Run Automated Tests (Optional)
+
+To execute the test suite, run:
+
+```powershell
+.\build\AlgoLibTests.exe
+```
+
+The reported test result for the project is **91 assertions passed and 0 failed**.
+
+---
+
+### Important Notes
+
+- This is a C++ desktop application, not a website. It cannot be launched directly from the GitHub repository in a browser.
+- The project must be built on the computer before running it.
+- The `build` folder is excluded from GitHub, so you need to generate it using the CMake commands above.
+- Make sure the required Qt libraries and compiler toolchain are installed.
+
+**Project Repository:** https://github.com/baidbhavya9a-ux/AlgoLib   
+
